@@ -28,3 +28,52 @@ const kittens = await Kitten.find();
 console.log(kittens);
 
 await Kitten.find({ name: /^fluff/ });
+
+// app.post("/product", async (req, res) => {
+//     const newProduct = new Product({
+//         name: 'Sample Product',
+//         price: 10.99,
+//         category: 'Electronics'
+//     });
+
+//     newProduct.save();
+// });
+
+function loadProducts(products) {
+    var CardProduct = document.getElementById("products");
+
+    var cards = [];
+
+    for (let i = 0; i < products.length; i++) {
+        let id = products[i].id;
+        let name = products[i].name;
+        let price = products[i].price;
+        let description = products[i].description;
+        let url = products[i].imageUrl;
+
+        let card = "card" + i.toString();
+
+        let AddCardRobot = document.createElement("div");
+
+        AddCardRobot.innerHTML = `
+            <div id=${card} class="card shadow-sm">
+                <img src=${url} class="card-img-top" alt="..."></img>
+                <div class="card-body">
+                    <p class="card-text"> ${id} <strong>${name}</strong> $${price}</p>
+                    <p class="card-text"> ${description} </p>
+                    <small class="text-body-secondary"></small>
+                </div>
+            </div>
+        </div>
+        `;
+
+        CardRobot.appendChild(AddCardRobot);
+
+        let ccard = document.getElementById(card);
+        cards.push(ccard);
+
+        console.log(card);
+    }
+
+    console.log(cards);
+  }
