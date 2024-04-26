@@ -52,10 +52,10 @@ function App() {
         [name]: value
       }));
     };
-  
+
     const handleSubmit = (e) => {
       e.preventDefault();
-      
+
       fetch("http://localhost:8081/create", {
         method: "POST",
         headers: {
@@ -63,7 +63,7 @@ function App() {
         },
         body: JSON.stringify(formData)
       })
-      .then(response => response.json())
+        .then(response => response.json())
     };
 
     return (<div>
@@ -71,14 +71,14 @@ function App() {
 
       <p>Complete the form to add a product</p>
       <form onSubmit={handleSubmit}>
-        <p>ID: <input type="text" name="id" value={formData.id} onChange={handleChange}/></p>
-        <p>Title: <input type="text" name="title" value={formData.title} onChange={handleChange}/></p>
-        <p>Price: <input type="number" name="price" value={formData.price} onChange={handleChange}/></p>
-        <p>Description: <input type="text" name="description" value={formData.description} onChange={handleChange}/></p>
-        <p>Category: <input type="text" name="category" value={formData.category} onChange={handleChange}/></p>
-        <p>Image: <input type="text" name="image" value={formData.image} onChange={handleChange}/></p>
-        <p>Rating: <input type="number" name="rating.rate" value={formData.rating.rate} onChange={handleChange}/></p>
-        <p>Review Count: <input type="number" name="rating.count" value={formData.rating.count} onChange={handleChange}/></p>
+        <p>ID: <input type="text" name="id" value={formData.id} onChange={handleChange} /></p>
+        <p>Title: <input type="text" name="title" value={formData.title} onChange={handleChange} /></p>
+        <p>Price: <input type="number" name="price" value={formData.price} onChange={handleChange} /></p>
+        <p>Description: <input type="text" name="description" value={formData.description} onChange={handleChange} /></p>
+        <p>Category: <input type="text" name="category" value={formData.category} onChange={handleChange} /></p>
+        <p>Image: <input type="text" name="image" value={formData.image} onChange={handleChange} /></p>
+        <p>Rating: <input type="number" name="rating.rate" value={formData.rating.rate} onChange={handleChange} /></p>
+        <p>Review Count: <input type="number" name="rating.count" value={formData.rating.count} onChange={handleChange} /></p>
         <button type="submit">Add Product</button>
       </form>
     </div>);
@@ -92,15 +92,15 @@ function App() {
       const product = products[i]
 
       cards.push(
-        <div class="productCard" key={i}>
-          <div id="products" class="card shadow-sm">
-            <img src={product.image} class="card-img-top" alt="..."></img>
-            <div class="card-body">
-              <p class="card-text"> {product.id} <strong>{product.title}</strong> ${product.price}</p>
-              <p class="card-text">Rating: {product.rating.rate} out of {product.rating.count} reviews</p>
-              <p class="card-text"> <strong>Category: {product.category}</strong></p>
-              <p class="card-text">{product.description}</p>
-              <small class="text-body-secondary"></small>
+        <div className="productCard" key={i}>
+          <div id="products" className="card shadow-sm">
+            <img src={product.image} className="card-img-top" alt="..."></img>
+            <div className="card-body">
+              <p className="card-text"> {product.id} <strong>{product.title}</strong> ${product.price}</p>
+              <p className="card-text">Rating: {product.rating.rate} out of {product.rating.count} reviews</p>
+              <p className="card-text"> <strong>Category: {product.category}</strong></p>
+              <p className="card-text">{product.description}</p>
+              <small className="text-body-secondary"></small>
             </div>
           </div>
         </div>
@@ -109,7 +109,7 @@ function App() {
 
     return (<div>
       <h1>View Products</h1>
-        <div id="products">{cards}</div>
+      <div id="products">{cards}</div>
     </div>);
   }
 
@@ -134,6 +134,20 @@ function App() {
 
     return (<div>
       <h1>Student Info</h1>
+      <div>
+        <h4>Nathan Church</h4>
+        <p>nchurch@iastate.edu</p>
+      </div>
+      <div>
+        <h4>Dalton Clark</h4>
+        <p>dbclark@iastate.edu</p>
+      </div>
+      <div>
+        <p>Course Number: COM S 319</p>
+        <p>Course Name: Construction of User Interfaces</p>
+        <p>Date: 4/26/2024</p>
+        <p>Instructor: Abraham Aldaco</p>
+      </div>
     </div>);
   }
 
