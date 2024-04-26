@@ -29,15 +29,7 @@ console.log(kittens);
 
 await Kitten.find({ name: /^fluff/ });
 
-// app.post("/product", async (req, res) => {
-//     const newProduct = new Product({
-//         name: 'Sample Product',
-//         price: 10.99,
-//         category: 'Electronics'
-//     });
 
-//     newProduct.save();
-// });
 
 function loadProducts(products) {
     var CardProduct = document.getElementById("products");

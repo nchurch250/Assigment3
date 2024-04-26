@@ -6,6 +6,19 @@ function App() {
   const [viewer, setViewer] = useState(0);
   const [products, setProducts] = useState([]);
 
+  const [formData, setFormData] = useState({
+    id: '',
+    title: '',
+    price: '',
+    description: '',
+    category: '',
+    image: '',
+    rating: {
+      rate: '',
+      count: ''
+    }
+  });
+
   const setView = (view) => {
     setViewer(view)
 
@@ -32,9 +45,43 @@ function App() {
 
   function View1() {
 
+    const handleChange = (e) => {
+      e.preventDefault();
+      const { name, value } = e.target;
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      
+      fetch("http://localhost:8081/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      })
+      .then(response => response.json())
+    };
 
     return (<div>
       <h1>Add Products</h1>
+
+      <p>Complete the form to add a product</p>
+      <form onSubmit={handleSubmit}>
+        <p>ID: <input type="text" name="id" value={formData.id} onChange={handleChange}/></p>
+        <p>Title: <input type="text" name="title" value={formData.title} onChange={handleChange}/></p>
+        <p>Price: <input type="number" name="price" value={formData.price} onChange={handleChange}/></p>
+        <p>Description: <input type="text" name="description" value={formData.description} onChange={handleChange}/></p>
+        <p>Category: <input type="text" name="category" value={formData.category} onChange={handleChange}/></p>
+        <p>Image: <input type="text" name="image" value={formData.image} onChange={handleChange}/></p>
+        <p>Rating: <input type="number" name="rating.rate" value={formData.rating.rate} onChange={handleChange}/></p>
+        <p>Review Count: <input type="number" name="rating.count" value={formData.rating.count} onChange={handleChange}/></p>
+        <button type="submit">Add Product</button>
+      </form>
     </div>);
   }
 
@@ -46,7 +93,7 @@ function App() {
       const product = products[i]
 
       cards.push(
-        <div class="productCard">
+        <div class="productCard" key={i}>
           <div id="products" class="card shadow-sm">
             <img src={product.image} class="card-img-top" alt="..."></img>
             <div class="card-body">

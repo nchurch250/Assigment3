@@ -19,9 +19,16 @@ const mongoose = require('mongoose');
 
 
 const productSchema = new mongoose.Schema({
-    name: String,
+    id: Number,
+    title: String,
     price: Number,
-    category: String
+    description: String,
+    category: String,
+    image: String,
+    rating: {
+        rate: Number,
+        count: Number
+    }
 }, { collection: 'fakestore_catalog' });
 
 const Product = mongoose.model('Product', productSchema);
@@ -44,4 +51,12 @@ app.get("/read", async (req, res) => {
 
     res.json(products);
 
+});
+
+app.post("/create", async (req, res) => {
+    const productData = req.body;
+
+    const newProduct = new Product(productData);
+  
+    newProduct.save()
 });
