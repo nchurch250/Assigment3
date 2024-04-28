@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 
 
 function App() {
   const [viewer, setViewer] = useState(0);
   const [products, setProducts] = useState([]);
-
+  const [oneProduct, setOneProduct] = useState([]);
+  
   const [formData, setFormData] = useState({
     id: '',
     title: '',
@@ -28,9 +29,7 @@ function App() {
         break;
 
       case 1:
-        fetch("http://localhost:8081/read")
-          .then(response => response.json())
-          .then(data => setProducts(data))
+        getAllProducts();
         break;
 
       case 2:
@@ -42,6 +41,34 @@ function App() {
         break;
     }
   }
+
+
+  function getAllProducts() {
+    fetch("http://localhost:8081/read", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then((data) => {
+      console.log("Show Catalog of Products :");
+      console.log(data);
+      setProducts(data);
+      });
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
   function View1() {
 
@@ -84,28 +111,47 @@ function App() {
     </div>);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function View2() {
+      var cards = [];
 
-    var cards = [];
-
-    for (let i = 0; i < products.length; i++) {
-      const product = products[i]
-
-      cards.push(
-        <div className="productCard" key={i}>
-          <div id="products" className="card shadow-sm">
-            <img src={product.image} className="card-img-top" alt="..."></img>
-            <div className="card-body">
-              <p className="card-text"> {product.id} <strong>{product.title}</strong> ${product.price}</p>
-              <p className="card-text">Rating: {product.rating.rate} out of {product.rating.count} reviews</p>
-              <p className="card-text"> <strong>Category: {product.category}</strong></p>
-              <p className="card-text">{product.description}</p>
-              <small className="text-body-secondary"></small>
+      for (let i = 0; i < products.length; i++) {
+        const product = products[i]
+  
+        cards.push(
+          <div className="productCard" key={i}>
+            <div id="products" className="card shadow-sm">
+              <img src={product.image} className="card-img-top" alt="..."></img>
+              <div className="card-body">
+                <p className="card-text"> {product.id} <strong>{product.title}</strong> ${product.price}</p>
+                <p className="card-text">Rating: {product.rating.rate} out of {product.rating.count} reviews</p>
+                <p className="card-text"> <strong>Category: {product.category}</strong></p>
+                <p className="card-text">{product.description}</p>
+                <small className="text-body-secondary"></small>
+              </div>
             </div>
           </div>
-        </div>
-      );
-    }
+        );
+      }
+
 
     return (<div>
       <h1>View Products</h1>
@@ -113,20 +159,160 @@ function App() {
     </div>);
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   function View3() {
 
 
-    return (<div>
-      <h1>Update Product</h1>
-    </div>);
+
+    function getOneProduct(id) {
+
+
+      fetch("http://localhost:8081/read/" + id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then((data) => {
+      console.log("Show one product :", id);
+      console.log(data);
+      setOneProduct(data);
+      });
+      }
+
+      function updateOneProduct(id, price) {
+
+        fetch("http://localhost:8081/update/" + id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({"price": price})
+      })
+        .then(response => response.json())
+        .then((data) => {
+          console.log("Show one product :", id);
+          console.log(data);
+          setOneProduct(data);
+      });
+    }
+
+  const showOneItem = oneProduct.map((el) => (
+      <div key={el.id}>
+      <img src={el.image} width={30} alt="images" /> <br />
+      Title: {el.title} <br />
+      Category: {el.category} <br />
+      Price: {el.price} <br />
+      Rating: {el.rating.rate} <br />
+      Rating Count: {el.rating.count} <br />
+      </div>
+      ));
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (e.target.price.value.length == 0) {
+          getOneProduct(e.target.id.value);
+        } else {
+          updateOneProduct(e.target.id.value,e.target.price.value);
+        }
+      }
+
+        return (<div>
+      <h3>Show one Product by Id:</h3>
+      <form onSubmit={handleSubmit}>
+      <input
+      type="number" name="id" placeholder="id" value={oneProduct.id} />
+      <input
+      type="number" name="price" placeholder="price" value={oneProduct.price} />
+      <input type="submit" />
+      </form>
+      {showOneItem}
+      </div>);
+    
   }
 
   function View4() {
+    function getOneProduct(id) {
 
 
-    return (<div>
-      <h1>Delete Product</h1>
-    </div>);
+      fetch("http://localhost:8081/read/" + id, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.json())
+      .then((data) => {
+      console.log("Show one product :", id);
+      console.log(data);
+      setOneProduct(data);
+      });
+      }
+
+      function deleteOneProduct(id) {
+        fetch("http://localhost:8081/delete/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(response => response.json())
+        .then((data) => {
+          console.log("Show one product :", id);
+          console.log(data);
+          setOneProduct(data);
+      });
+    }
+
+  const showOneItem = oneProduct.map((el) => (
+      <div key={el.id}>
+      <img src={el.image} width={30} alt="images" /> <br />
+      Title: {el.title} <br />
+      Category: {el.category} <br />
+      Price: {el.price} <br />
+      Rating: {el.rating.rate} <br />
+      Rating Count: {el.rating.count} <br />
+      </div>
+      ));
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (e.target.confirmation.value.length == 0) {
+          getOneProduct(e.target.id.value);
+        } else {
+          deleteOneProduct(e.target.id.value);
+        }
+      }
+
+        return (<div>
+      <h3>Show one Product by Id:</h3>
+      <form onSubmit={handleSubmit}>
+      <input
+      type="number" name="id" placeholder="id" value={oneProduct.id} />
+      <input
+      type="text" name="confirmation" placeholder="Are you sure?" />
+      <input type="submit" />
+      </form>
+      {showOneItem}
+      </div>);
   }
 
   function View5() {
@@ -167,3 +353,146 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
+// import { useState, useEffect } from "react";
+
+
+
+// function App() {
+//     const [products, setProducts] = useState([]);
+//     const [oneProduct, setOneProduct] = useState([]);
+//     const [viewer1, setViewer1] = useState(false);
+//     const [viewer2, setViewer2] = useState(false);
+//     // new Product
+//     const [addNewProduct, setAddNewProduct] = useState({
+//       id: '',
+//       title: '',
+//       price: '',
+//       description: '',
+//       category: '',
+//       image: '',
+//       rating: {
+//         rate: '',
+//         count: ''
+//       }
+//     });
+
+//     useEffect(() => {
+//         getAllProducts();
+//         }, []);
+
+//     function getAllProducts() {
+//       fetch("http://localhost:8081/read", {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json"
+//         }
+//       })
+//         .then(response => response.json())
+//         .then((data) => {
+//         console.log("Show Catalog of Products :");
+//         console.log(data);
+//         setProducts(data);
+//         });
+//         setViewer1(true);
+//     }
+
+
+
+
+//     function showAllItems() {
+//       var cards = [];
+
+//       for (let i = 0; i < products.length; i++) {
+//         const product = products[i]
+  
+//         cards.push(
+//           <div className="productCard" key={i}>
+//             <div id="products" className="card shadow-sm">
+//               <img src={product.image} className="card-img-top" alt="..."></img>
+//               <div className="card-body">
+//                 <p className="card-text"> {product.id} <strong>{product.title}</strong> ${product.price}</p>
+//                 <p className="card-text">Rating: {product.rating.rate} out of {product.rating.count} reviews</p>
+//                 <p className="card-text"> <strong>Category: {product.category}</strong></p>
+//                 <p className="card-text">{product.description}</p>
+//                 <small className="text-body-secondary"></small>
+//               </div>
+//             </div>
+//           </div>
+//         );
+//       }
+
+//       return (<div>
+//                <div id="products">{cards}</div>
+//              </div>);
+//   }
+
+
+//     // const showAllItems = product.map((el) => (
+//     //     <div key={el.id}>
+//     //     <img src={el.image} width={30} alt="images" /> <br />
+//     //     Title: {el.title} <br />
+//     //     Category: {el.category} <br />
+//     //     Price: {el.price} <br />
+//     //     Rating :{el.rating.rate} <br />
+//     //     Rating Count :{el.rating.count} <br />
+//     //     </div>
+//     //     ));
+
+//     function getOneProduct(id) {
+//       fetch("http://localhost:8081/read/" + id, {
+//                 method: "GET",
+//                 headers: {
+//                   "Content-Type": "application/json"
+//                 }
+//               })
+//               .then(response => response.json())
+//         .then((data) => {
+//         console.log("Show one product :", id);
+//         console.log(data);
+//         setOneProduct(data);
+//         });
+//         if (false === viewer2) {
+//         setViewer2(true);
+//         } else {
+//         console.log("Wrong number of Product id.");
+//         }
+//       }
+
+//     const showOneItem = oneProduct.map((el) => (
+//         <div key={el.id}>
+//         <img src={el.image} width={30} alt="images" /> <br />
+//         Title: {el.title} <br />
+//         Category: {el.category} <br />
+//         Price: {el.price} <br />
+//         Rating: {el.rating.rate} <br />
+//         Rating Count: {el.rating.count} <br />
+//         </div>
+//         ));
+
+// return ( <div>
+    
+//     <h1>Catalog of Products</h1>
+// <div>
+// <h3>Show all available Products.</h3>
+// <button onClick={() => getAllProducts()}>Show All ...</button>
+// {viewer1 && showAllItems()}
+// </div>
+
+// <div>
+// <h3>Show one Product by Id:</h3>
+// <input
+// type="text" id="message" name="message" placeholder="id" onChange={(e) => getOneProduct(e.target.value)} />
+// {viewer2 && showOneItem }
+// </div>
+
+// </div>
+// ); // return end
+// } // App end
+
+// export default App;

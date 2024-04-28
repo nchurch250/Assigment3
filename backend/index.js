@@ -53,10 +53,36 @@ app.get("/read", async (req, res) => {
 
 });
 
+app.get("/read/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const product = await Product.find({"id": id});
+
+    res.json(product);
+
+});
+
 app.post("/create", async (req, res) => {
     const productData = req.body;
 
     const newProduct = new Product(productData);
-  
     newProduct.save()
+});
+
+app.put("/update/:id", async (req, res) => {
+    const price = req.body.price;
+
+    const result = await Product.updateOne({ "price": price });
+});
+
+app.delete("/delete/:id", async (req, res) => {
+    const id = req.params.id;
+
+    const result = await Product.deleteOne({ "id": id });
+
+    if (result.deletedCount === 1) {
+      console.log("Successfully deleted one document.");
+    } else {
+      console.log("No documents matched the query. Deleted 0 documents.");
+    }
 });
