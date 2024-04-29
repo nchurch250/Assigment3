@@ -71,8 +71,9 @@ app.post("/create", async (req, res) => {
 
 app.put("/update/:id", async (req, res) => {
     const price = req.body.price;
+    const id = req.params.id;
 
-    const result = await Product.updateOne({ "price": price });
+    const result = await Product.updateOne({ "id": id }, { "price": price });
 });
 
 app.delete("/delete/:id", async (req, res) => {

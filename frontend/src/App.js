@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 
-
 function App() {
   const [viewer, setViewer] = useState(0);
   const [products, setProducts] = useState([]);
@@ -110,19 +109,6 @@ function App() {
       </form>
     </div>);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -242,13 +228,39 @@ function App() {
       type="number" name="id" placeholder="id" value={oneProduct.id} />
       <input
       type="number" name="price" placeholder="price" value={oneProduct.price} />
-      <input type="submit" />
+      <button type="submit">Submit</button>
       </form>
       {showOneItem}
       </div>);
     
   }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
   function View4() {
     function getOneProduct(id) {
 
@@ -309,7 +321,8 @@ function App() {
       type="number" name="id" placeholder="id" value={oneProduct.id} />
       <input
       type="text" name="confirmation" placeholder="Are you sure?" />
-      <input type="submit" />
+      {/* <input type="submit" /> */}
+      <button type="submit">Submit</button>
       </form>
       {showOneItem}
       </div>);
