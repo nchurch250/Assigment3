@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
 
 function App() {
@@ -72,11 +72,13 @@ function App() {
   function View1() {
 
     const handleChange = (e) => {
+      
       const { name, value } = e.target;
       setFormData(prevData => ({
         ...prevData,
         [name]: value
       }));
+
     };
 
     const handleSubmit = (e) => {
@@ -260,7 +262,7 @@ function App() {
 
 
 
-  
+
   function View4() {
     function getOneProduct(id) {
 
@@ -321,7 +323,6 @@ function App() {
       type="number" name="id" placeholder="id" value={oneProduct.id} />
       <input
       type="text" name="confirmation" placeholder="Are you sure?" />
-      {/* <input type="submit" /> */}
       <button type="submit">Submit</button>
       </form>
       {showOneItem}
